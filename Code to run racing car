@@ -1,0 +1,218 @@
+//main.cpp
+
+#include <iostream>
+#include "FuelGuage.h"
+#include "Odometer.h"
+using namespace std;
+
+int main()
+{
+FuelGuage fuel;
+Odometer odometer;
+
+char choice = 'y';
+
+while(choice != 'n')
+{
+
+unsigned int  fuelqty;
+cout<<"\n Set the amount of Fuel (max 15 gallons) : ";
+cin>>fuelqty;
+
+if(fuelqty>15)
+{
+	cout<<"\n Can't fill more than 15 Gallons of fuel";
+continue;
+}
+
+for(int i=0;i<fuelqty; i++)
+{
+    fuel.putFuel();
+}
+
+cout<<"\n\n Car tank has : "<< fuel.getFuel()<<" gallons";
+
+cout<<"\n\n Set the initial Mileage of car (max 99999) : ";
+
+	if(odometer.reportMileage() == 0)
+	{
+	cout<<"\n Can't set more than 99999 \n\n";
+continue;
+	}
+
+cout<<"\n Starting the Car .....";
+
+unsigned int fuelLeft =  fuel.getFuel();
+
+while(fuelLeft>=1)
+{
+    fuel.burnFuel();
+    odometer.increamentMileage();
+    odometer.getCurrentMileage();
+    fuel.getFuel();
+    
+    //added to have some delay :)
+   for(int i=0;i<15000;i++)
+        for(int j=0;j<15000;j++)
+        {
+        //do nothing. Delay to make program fancy
+       }
+    fuelLeft =  fuel.getFuel();   
+}
+
+cout<<"\n\n Car Stopeed. No fuel left... ";
+
+cout<<"\n\n Do you want to run the car again ? y/n  ";
+cin>>choice;
+}
+    
+cout<<"\n\n You must have enjoyed it !! :D :D. thank you !";
+
+return 0;
+}
+
+/*----------------------------end of main.cpp-------------------------------*/
+
+
+//FuelGuage.cpp
+
+#include "FuelGuage.h"
+#include <iostream>
+using namespace std;
+
+FuelGuage::FuelGuage(){
+fuelQty = 0 ;
+}
+
+//simulating putting fuel in car
+void FuelGuage::putFuel(){
+	
+if(fuelQty<15)
+{
+fuelQty++;
+cout<<"\n filling fuel.. current qty : "<<fuelQty;
+
+for(int i=0;i<15000;i++)
+for(int j=0;j<15000;j++)
+{
+//do nothing. Delay to make program fancy
+}
+
+}
+    
+}
+
+//simulating burning fuel of car
+void FuelGuage::burnFuel(){
+if(fuelQty>=1)
+fuelQty--;
+}
+
+unsigned int  FuelGuage:: getFuel(){
+cout<<"\n Current Amount of Fuel : "<<fuelQty<<" gallons";
+return fuelQty;
+}
+
+void FuelGuage::reportFuel(){
+unsigned int temp;
+cout<<"\n Report the amount of Fuel in Car : ";
+cin>> temp;
+
+if(temp<=15)
+fuelQty = temp;
+else
+cout<<"\n Fuel amount can't be more than 15 Gallons";
+
+
+}
+/*---------------- end of FuelGuage.cpp ---------------*/
+
+//FuelGuage.h
+
+class FuelGuage{
+private: 
+unsigned int fuelQty;
+
+public:
+
+FuelGuage();
+
+//simulating putting fuel in car
+void putFuel();
+
+//simulating burning fuel of car
+void burnFuel();
+
+unsigned int  getFuel();
+
+void reportFuel();
+
+};
+
+
+/*---------- end of FuelGuage.h ---------------*/
+
+
+
+//Odometer.cpp
+
+#include "Odometer.h"
+
+Odometer::Odometer(){
+currentMileage = 0;
+}
+
+int Odometer::reportMileage()
+{
+unsigned long int temp;
+
+cout<<"\n Set current mileage : ";
+cin>>temp;
+
+if(temp <= 99999)
+{
+currentMileage = temp;
+return 1;
+}
+else
+{
+cout<<"\n Mileage can't be more than 99,999";
+return 0;
+}
+
+}
+void Odometer::getCurrentMileage(){
+cout<<"\n Current Mileage of Car : "<< currentMileage;
+
+}
+void Odometer::increamentMileage(){
+if(currentMileage<99999)
+currentMileage++;
+else
+currentMileage = 0;
+}
+
+
+/*--------------------------- Odometer.cpp -------------*/
+
+
+//Odometer.h 
+
+#include <iostream>
+using namespace std;
+
+class Odometer{
+    
+private: unsigned long int currentMileage;
+
+public:
+Odometer();
+int reportMileage();
+
+void getCurrentMileage();
+
+void increamentMileage();
+
+};
+
+/*---------------- end of odometer.h ----------*/
